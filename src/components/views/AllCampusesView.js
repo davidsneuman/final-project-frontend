@@ -20,6 +20,7 @@ const AllCampusesView = (props) => {
 
       {props.allCampuses.map((campus) => (
         <div key={campus.id}>
+          <img src={campus.imageUrl}></img>
           <Link to={`/campus/${campus.id}`}>
             <h2>{campus.name}</h2>
           </Link>
