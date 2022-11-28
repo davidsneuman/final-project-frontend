@@ -21,9 +21,47 @@ class NewStudentContainer extends Component {
       firstname: "", 
       lastname: "", 
       campusId: null, 
+      email: "",
+      imageUrl: "https://media.istockphoto.com/id/1300845620/vector/user-icon-flat-isolated-on-white-background-user-symbol-vector-illustration.jpg?s=612x612&w=0&k=20&c=yBeyba0hUkh14_jgv1OKqIH0CCSWU_4ckRkAoy2p73o=",
+      gpa: null,
       redirect: false, 
       redirectId: null
     };
+  }
+
+  isGpaValid() {
+    return !this.state.gpa || (this.state.gpa <= 4.0 && this.state.gpa >= 0.0)
+  }
+
+  isValidInput() {
+    return this.isGpaValid()
+    && this.state.firstname 
+    && this.state.lastname 
+    && this.state.email 
+    && this.state.campusId
+  }
+
+  alertInvalidInput() {
+    switch (true) {
+        case !this.state.firstname:
+            alert("First Name is invalid")
+            break
+        case !this.state.lastname:
+            alert("Last Name is invalid")
+            break
+        case !this.state.campusId:
+            alert("Campus ID is invalid")
+            break
+        case !this.state.email:
+            alert("Email is invalid")
+            break
+        case !this.isGpaValid():
+            alert("GPA is invalid")
+            break
+        default:
+            break
+    }
+
   }
 
   // Capture input data when it is entered
@@ -36,11 +74,14 @@ class NewStudentContainer extends Component {
   // Take action after user click the submit button
   handleSubmit = async event => {
     event.preventDefault();  // Prevent browser reload/refresh after submit.
-
+    if (this.isValidInput()) {
     let student = {
         firstname: this.state.firstname,
         lastname: this.state.lastname,
-        campusId: this.state.campusId
+        campusId: this.state.campusId,
+        email: this.state.email,
+        imageUrl: this.state.imageUrl,
+        gpa: this.state.gpa
     };
     
     // Add new student in back-end database
@@ -51,9 +92,15 @@ class NewStudentContainer extends Component {
       firstname: "", 
       lastname: "", 
       campusId: null, 
+      email: "",
+      imageUrl: "https://media.istockphoto.com/id/1300845620/vector/user-icon-flat-isolated-on-white-background-user-symbol-vector-illustration.jpg?s=612x612&w=0&k=20&c=yBeyba0hUkh14_jgv1OKqIH0CCSWU_4ckRkAoy2p73o=",
+      gpa: null,
       redirect: true, 
       redirectId: newStudent.id
     });
+} else {
+    this.alertInvalidInput()
+}
   }
 
   // Unmount when the component is being removed from the DOM:
