@@ -76,10 +76,10 @@ export const deleteStudentThunk = studentId => async dispatch => {  // The THUNK
 
 // Edit Student
 // THUNK CREATOR:
-export const editStudentThunk = student => async dispatch => {  // The THUNK
+export const editStudentThunk = (id,student) => async dispatch => {  // The THUNK
   try {
     // API "put" call to update student (based on "id" and "student" object's data) from database
-    let updatedStudent = await axios.put(`/api/students/${student.id}`, student); 
+    let updatedStudent = await axios.put(`/api/students/${id}`, student); 
     // Update successful so change state with dispatch
     dispatch(ac.editStudent(updatedStudent));
   } catch(err) {

@@ -28,6 +28,12 @@ const StudentView = (props) => {
       <Link to={`/campus/${student.campusId}`}>
       {getCampus(student)}
       </Link>
+    
+    <br/>
+    <Link to={`/editstudent/${student.id}`}>
+        <button>Edit Student</button>
+    </Link>
+    <br/><br/>
     </div>
   );
 
