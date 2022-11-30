@@ -14,7 +14,11 @@ const StudentView = (props) => {
         return <h3>{student.firstname + " " + student.lastname + " does not belong to a campus."}</h3>;
       }
       else{
-        return <h3>{student.campus.name}</h3>
+        return <h3>
+                    <Link to={`/campus/${student.campusId}`}>
+                        {student.campus.name}
+                    </Link>
+                </h3>
       }
     }
   // Render a single Student view 
@@ -25,9 +29,7 @@ const StudentView = (props) => {
       <h1>{student.firstname + " " + student.lastname}</h1>
       <p>{student.email}</p>
       <p>{student.gpa}</p>
-      <Link to={`/campus/${student.campusId}`}>
       {getCampus(student)}
-      </Link>
     
     <br/>
     <Link to={`/editstudent/${student.id}`}>
