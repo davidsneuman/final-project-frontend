@@ -37,6 +37,11 @@ const CampusView = (props) => {
       <p>{campus.address}</p>
       <p>{campus.description}</p>
       {getStudents(campus)}
+      <br/>
+      <Link to={`/newcampus`}>
+        <button>Add New Campus</button>
+      </Link>
+      <br/><br/>
     </div>
   );
 };
