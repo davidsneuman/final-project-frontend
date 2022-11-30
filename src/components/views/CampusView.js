@@ -12,7 +12,7 @@ const CampusView = (props) => {
     // If there is no campus, display a message.
 
   function getStudents(campus) {
-    if (!campus.students) {
+    if (!campus.students.length) {
         return <div>There are no students.</div>;
       }
       else{
