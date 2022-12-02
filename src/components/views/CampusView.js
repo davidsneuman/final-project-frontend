@@ -9,11 +9,9 @@ import { Link } from "react-router-dom";
 // Take in props data to construct the component
 const CampusView = (props) => {
   const {campus, deleteCampus, editStudent} = props;
-    // If there is no campus, display a message.
-
-    
 
   function getStudents(campus) {
+    // If there is no campus, display a message.
     if (!campus.students.length) {
         return <div>There are no students.</div>;
       }
@@ -25,7 +23,7 @@ const CampusView = (props) => {
                 <h2>
                     <Link to={`/student/${student.id}`}>
                     {name}
-                    <button onClick={() => editStudent(student.id, {campusId: null})}>Delete Student</button>  
+                    <button onClick={() => editStudent(student.id, {campusId: null})}>Unenroll Student</button>  
                     </Link> 
                 </h2>
               </div>
@@ -46,6 +44,9 @@ const CampusView = (props) => {
       <br/>
     <Link to={`/editcampus/${campus.id}`}>
         <button>Edit Campus</button>
+    </Link>
+    <Link to={`/enrollstudent/${campus.id}`}>
+        <button>Enroll Student</button>
     </Link>
     <br/><br/>
     <Link to={`/campuses/`}>

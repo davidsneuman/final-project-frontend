@@ -8,6 +8,7 @@ If needed, it also defines the component's "connect" function.
 import Header from './Header';
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
 import { fetchCampusThunk, deleteCampusThunk, editStudentThunk } from "../../store/thunks";
 
 import { CampusView } from "../views";
@@ -58,4 +59,4 @@ const mapDispatch = (dispatch) => {
 // Export store-connected container by default
 // CampusContainer uses "connect" function to connect to Redux Store and to read values from the Store 
 // (and re-read the values when the Store State updates).
-export default connect(mapState, mapDispatch)(CampusContainer);
+export default withRouter(connect(mapState, mapDispatch)(CampusContainer));
