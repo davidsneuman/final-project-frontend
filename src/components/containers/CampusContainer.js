@@ -8,17 +8,20 @@ If needed, it also defines the component's "connect" function.
 import Header from './Header';
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { fetchCampusThunk, deleteCampusThunk } from "../../store/thunks";
+import { withRouter } from "react-router-dom";
+import { fetchCampusThunk, deleteCampusThunk, editStudentThunk } from "../../store/thunks";
 
 import { CampusView } from "../views";
-import { deleteCampus } from '../../store/actions/actionCreators';
+import { deleteCampus, editStudent } from '../../store/actions/actionCreators';
 
 class CampusContainer extends Component {
+
   // Get the specific campus data from back-end database
   componentDidMount() {
     // Get campus ID from URL (API link)
     this.props.fetchCampus(this.props.match.params.id);
   }
+
 
   // Render a Campus view by passing campus data as props to the corresponding View component
   render() {
@@ -28,6 +31,7 @@ class CampusContainer extends Component {
         <CampusView 
         campus={this.props.campus} 
         deleteCampus={this.props.deleteCampus}  
+        editStudent={this.props.editStudent} 
         />
       </div>
     );
@@ -48,10 +52,11 @@ const mapDispatch = (dispatch) => {
   return {
     fetchCampus: (id) => dispatch(fetchCampusThunk(id)),
     deleteCampus: (campusId) => dispatch(deleteCampusThunk(campusId)),
+    editStudent: (id, student) => dispatch(editStudentThunk(id, student))
   };
 };
 
 // Export store-connected container by default
 // CampusContainer uses "connect" function to connect to Redux Store and to read values from the Store 
 // (and re-read the values when the Store State updates).
-export default connect(mapState, mapDispatch)(CampusContainer);
+export default withRouter(connect(mapState, mapDispatch)(CampusContainer));
