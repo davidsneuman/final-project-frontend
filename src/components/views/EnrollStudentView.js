@@ -56,7 +56,7 @@ const EnrollStudentView = (props) => {
             <br/>
             <br/>
             
-            <label style={{color:'#11153e', fontWeight: 'bold'}}>{campusId}</label>
+            <label style={{color:'#11153e', fontWeight: 'bold'}}>{"Campus ID: " + campusId}</label>
             
             <br/>
             <br/>
