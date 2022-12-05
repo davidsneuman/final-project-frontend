@@ -56,7 +56,7 @@ class EnrollStudentContainer extends Component {
     });
     if (this.state.currentlyUnenrolledStudents.has(this.state.id)) {
     // Add new student in back-end database
-    let newStudent = await this.props.editStudent(this.state.id, {campusId: this.props.match.params.id});
+    await this.props.editStudent(this.state.id, {campusId: this.props.match.params.id});
 
     // Update state, and trigger redirect to show the new student
     this.setState({
@@ -83,6 +83,7 @@ getCurrentlyEnrolled() {
         if(String(student.campusId) === String(this.props.match.params.id)) {
             enrolledStudents.add(String(student.id));
         } 
+        return student;
     });
     return enrolledStudents;
 
@@ -93,6 +94,7 @@ getCurrentlyEnrolled() {
         if(String(student.campusId) !== String(this.props.match.params.id)) {
             unenrolledStudents.add(String(student.id));
         } 
+        return student;
     });
     return unenrolledStudents;
   }
@@ -118,9 +120,7 @@ getCurrentlyEnrolled() {
       <div>
         <Header />
         <EnrollStudentView 
-          students={this.props.allStudents}
           campusId={this.props.match.params.id}
-          student={this.props.student}
           handleChange = {this.handleChange} 
           handleSubmit={this.handleSubmit} 
                
