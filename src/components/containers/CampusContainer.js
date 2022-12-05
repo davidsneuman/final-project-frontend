@@ -12,7 +12,7 @@ import { withRouter } from "react-router-dom";
 import { fetchCampusThunk, deleteCampusThunk, editStudentThunk } from "../../store/thunks";
 
 import { CampusView } from "../views";
-import { deleteCampus, editStudent } from '../../store/actions/actionCreators';
+// import { deleteCampus, editStudent } from '../../store/actions/actionCreators';
 
 class CampusContainer extends Component {
 

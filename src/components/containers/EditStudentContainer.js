@@ -12,7 +12,7 @@ import { withRouter } from "react-router-dom";
 import { Redirect } from 'react-router-dom';
 
 import EditStudentView from '../views/EditStudentView';
-import { editStudentThunk, fetchStudentThunk } from '../../store/thunks';
+import { editStudentThunk, fetchStudentThunk, fetchAllCampusesThunk } from '../../store/thunks';
 
 class EditStudentContainer extends Component {
   // Initialize state
@@ -34,7 +34,21 @@ class EditStudentContainer extends Component {
       componentDidMount() {
         // this.props.fetchStudent(this.props.match.params.id);
         this.props.fetchStudent(this.props.match.params.id);
+        this.props.fetchAllCampuses();
           }
+
+    campusIdExists() {
+    if(!this.state.campusId) {
+        return false;
+    }
+
+    for(var i = 0; i < this.props.allCampuses.length; i++) {
+        if (String(this.props.allCampuses[i].id) === String(this.state.campusId)) {
+            return true;
+        }
+    }
+    return false;
+    }
 
   isGpaValid() {
     return !this.state.gpa || (this.state.gpa <= 4.0 && this.state.gpa >= 0.0)
@@ -45,7 +59,7 @@ class EditStudentContainer extends Component {
     && this.state.firstname 
     && this.state.lastname 
     && this.state.email 
-    && this.state.campusId
+    && this.campusIdExists()
   }
 
   alertInvalidInput() {
@@ -56,7 +70,7 @@ class EditStudentContainer extends Component {
         case !this.state.lastname:
             alert("Last Name is invalid")
             break
-        case !this.state.campusId:
+        case !this.campusIdExists():
             alert("Campus ID is invalid")
             break
         case !this.state.email:
@@ -129,6 +143,7 @@ class EditStudentContainer extends Component {
       <div>
         <Header />
         <EditStudentView 
+          allCampuses={this.props.allCampuses}
           student={this.props.student}
           handleChange = {this.handleChange} 
           handleSubmit={this.handleSubmit}
@@ -144,6 +159,7 @@ class EditStudentContainer extends Component {
 const mapState = (state) => {
     return {
       student: state.student,  // Get the State object from Reducer "student"
+      allCampuses: state.allCampuses
     };
   };
 
@@ -152,6 +168,7 @@ const mapState = (state) => {
 // The "mapDispatch" calls the specific Thunk to dispatch its action. The "dispatch" is a function of Redux Store.
 const mapDispatch = (dispatch) => {
     return({
+        fetchAllCampuses: () => dispatch(fetchAllCampusesThunk()),
         fetchStudent: (id) => dispatch(fetchStudentThunk(id)),
         editStudent: (id, student) => dispatch(editStudentThunk(id, student)),
     })

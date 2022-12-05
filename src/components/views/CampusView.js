@@ -21,9 +21,9 @@ const CampusView = (props) => {
             return (
               <div key={student.id}>
                 <h2>
-                    <Link to={`/student/${student.id}`}>
+                    <Link to={`/student/${student.id}`} >
                     {name}
-                    <button onClick={() => editStudent(student.id, {campusId: null})}>Unenroll Student</button>  
+                    <button onClick={() => editStudent(student.id, {campusId: null})} style= {{margin: 20}}>Unenroll Student</button>  
                     </Link> 
                 </h2>
               </div>
@@ -35,23 +35,28 @@ const CampusView = (props) => {
   // Render a single Campus view with list of its students
   return (
     <div>
-      <img src={campus.imageUrl}></img>
+      <img src={campus.imageUrl} style= {{height: 200, width: 200}}></img>
       <h1>{campus.name}</h1>
       <p>{campus.address}</p>
       <p>{campus.description}</p>
-      {getStudents(campus)}
-      <br/>
-      <br/>
-    <Link to={`/editcampus/${campus.id}`}>
+      <Link to={`/editcampus/${campus.id}`} style= {{padding: 20}}>
         <button>Edit Campus</button>
     </Link>
+    <Link to={`/campuses/`}>
+    <button onClick={() => deleteCampus(campus.id)}>Delete Campus</button>
+    </Link>
+
+    <br/>
+    <br/>
     <Link to={`/enrollstudent/${campus.id}`}>
         <button>Enroll Student</button>
     </Link>
+      <br/>
+      {getStudents(campus)}
+
+
     <br/><br/>
-    <Link to={`/campuses/`}>
-    <button onClick={() => deleteCampus(campus.id)}>Delete</button>
-    </Link>
+
     </div>
   );
 };

@@ -54,9 +54,6 @@ class EnrollStudentContainer extends Component {
         currentlyEnrolledStudents: this.getCurrentlyEnrolled(),
         currentlyUnenrolledStudents: this.getCurrentlyUnenrolled()
     });
-    console.log(this.props.campusId);
-    console.log(this.state.currentlyEnrolledStudents);
-    console.log(this.state.currentlyUnenrolledStudents);
     if (this.state.currentlyUnenrolledStudents.has(this.state.id)) {
     // Add new student in back-end database
     let newStudent = await this.props.editStudent(this.state.id, {campusId: this.props.match.params.id});
@@ -74,9 +71,6 @@ class EnrollStudentContainer extends Component {
     alert("Student with ID: " + this.state.id + " is already enrolled in this campus");
 
 } else {
-    console.log(typeof this.state.id)
-    console.log(this.state.currentlyEnrolledStudents.has(1));
-    console.log(this.state.currentlyUnenrolledStudents.has(2) );
     alert("Student does not exist.");
 }
 } 
