@@ -24,21 +24,21 @@ const StudentView = (props) => {
   // Render a single Student view 
   return (
     <div>
-      <img src={student.imageUrl}></img>
+      <img src={student.imageUrl}  style= {{height: 200, width: 200}}></img>
       
       <h1>{student.firstname + " " + student.lastname}</h1>
       <p>{student.email}</p>
-      <p>{student.gpa}</p>
+      <p>{"GPA: " + student.gpa}</p>
       {getCampus(student)}
     
-    <br/>
-    <Link to={`/editstudent/${student.id}`}>
+    <Link to={`/editstudent/${student.id}`} style= {{padding: 20}}>
         <button>Edit Student</button>
     </Link>
-    <br/><br/>
     <Link to={`/students/`}>
     <button onClick={() => deleteStudent(student.id)}>Delete</button>
     </Link>
+    <br/><br/>
+
     </div>
   );
 

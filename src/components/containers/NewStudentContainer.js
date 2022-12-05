@@ -12,7 +12,7 @@ import { Redirect } from 'react-router-dom';
 import { withRouter } from "react-router-dom";
 
 import NewStudentView from '../views/NewStudentView';
-import { addStudentThunk } from '../../store/thunks';
+import { addStudentThunk, fetchAllCampusesThunk } from '../../store/thunks';
 
 class NewStudentContainer extends Component {
   // Initialize state
@@ -30,16 +30,31 @@ class NewStudentContainer extends Component {
     };
   }
 
+  campusIdExists() {
+    if(!this.state.campusId) {
+        return false;
+    }
+
+    for(var i = 0; i < this.props.allCampuses.length; i++) {
+        if (String(this.props.allCampuses[i].id) === String(this.state.campusId)) {
+            return true;
+        }
+    }
+    return false;
+  }
+
   isGpaValid() {
     return !this.state.gpa || (this.state.gpa <= 4.0 && this.state.gpa >= 0.0)
   }
 
   isValidInput() {
+    this.props.fetchAllCampuses();
     return this.isGpaValid()
     && this.state.firstname 
     && this.state.lastname 
     && this.state.email 
     && this.state.campusId
+    && this.campusIdExists()
   }
 
   alertInvalidInput() {
@@ -50,7 +65,7 @@ class NewStudentContainer extends Component {
         case !this.state.lastname:
             alert("Last Name is invalid")
             break
-        case !this.state.campusId:
+        case !this.campusIdExists():
             alert("Campus ID is invalid")
             break
         case !this.state.email:
@@ -121,6 +136,7 @@ class NewStudentContainer extends Component {
       <div>
         <Header />
         <NewStudentView 
+          allCampuses={this.props.allCampuses}
           handleChange = {this.handleChange} 
           handleSubmit={this.handleSubmit}      
         />
@@ -129,11 +145,18 @@ class NewStudentContainer extends Component {
   }
 }
 
+const mapState = (state) => {
+    return {
+      allCampuses: state.allCampuses
+    };
+  };
+
 // The following input argument is passed to the "connect" function used by "NewStudentContainer" component to connect to Redux Store.
 // The "mapDispatch" argument is used to dispatch Action (Redux Thunk) to Redux Store.
 // The "mapDispatch" calls the specific Thunk to dispatch its action. The "dispatch" is a function of Redux Store.
 const mapDispatch = (dispatch) => {
     return({
+        fetchAllCampuses: () => dispatch(fetchAllCampusesThunk()),
         addStudent: (student) => dispatch(addStudentThunk(student)),
     })
 }
@@ -141,4 +164,4 @@ const mapDispatch = (dispatch) => {
 // Export store-connected container by default
 // NewStudentContainer uses "connect" function to connect to Redux Store and to read values from the Store 
 // (and re-read the values when the Store State updates).
-export default withRouter(connect(null, mapDispatch)(NewStudentContainer));
+export default withRouter(connect(mapState, mapDispatch)(NewStudentContainer));
