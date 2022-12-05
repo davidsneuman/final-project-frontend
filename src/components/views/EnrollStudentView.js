@@ -35,7 +35,7 @@ const useStyles = makeStyles( () => ({
 }));
 
 const EnrollStudentView = (props) => {
-  const {students, campusId, student, handleChange, handleSubmit} = props;
+  const {campusId, handleChange, handleSubmit} = props;
   const classes = useStyles();
 
   // Render a New Student view with an input form
