@@ -21,8 +21,6 @@ class EnrollStudentContainer extends Component {
     this.state = {
       id: null,
       campusId: this.props.match.params.id, 
-      currentlyEnrolledStudents: this.getCurrentlyEnrolled(),
-      currentlyUnenrolledStudents: this.getCurrentlyUnenrolled(),
       redirect: false, 
       redirectId: null
     };
@@ -32,10 +30,6 @@ class EnrollStudentContainer extends Component {
   
   componentDidMount() {
     this.props.fetchAllStudents();
-    this.setState({
-        currentlyEnrolledStudents: this.getCurrentlyEnrolled(),
-        currentlyUnenrolledStudents: this.getCurrentlyUnenrolled()
-    });
   }
 
 
@@ -50,11 +44,10 @@ class EnrollStudentContainer extends Component {
   handleSubmit = async event => {
     event.preventDefault();  // Prevent browser reload/refresh after submit.
     this.setState({
-        id: event.target.value,
-        currentlyEnrolledStudents: this.getCurrentlyEnrolled(),
-        currentlyUnenrolledStudents: this.getCurrentlyUnenrolled()
+        id: this.state.id,
     });
-    if (this.state.currentlyUnenrolledStudents.has(this.state.id)) {
+
+    if (this.getCurrentlyUnenrolled().has(String(this.state.id))) {
     // Add new student in back-end database
     await this.props.editStudent(this.state.id, {campusId: this.props.match.params.id});
 
@@ -62,12 +55,10 @@ class EnrollStudentContainer extends Component {
     this.setState({
       id: this.props.student.id,
       campusId: this.props.match.params.id, 
-      currentlyEnrolledStudents: this.getCurrentlyEnrolled(),
-      currentlyUnenrolledStudents: this.getCurrentlyUnenrolled(),
       redirect: true, 
       redirectId: this.state.id
     });
-} else if (this.state.currentlyEnrolledStudents.has(this.state.id)){
+} else if (this.getCurrentlyEnrolled().has(String(this.state.id))){
     alert("Student with ID: " + this.state.id + " is already enrolled in this campus");
 
 } else {
@@ -77,7 +68,6 @@ class EnrollStudentContainer extends Component {
 
 
 getCurrentlyEnrolled() {
-    
     var enrolledStudents = new Set();
     this.props.allStudents.map((student) => {
         if(String(student.campusId) === String(this.props.match.params.id)) {
@@ -103,8 +93,6 @@ getCurrentlyEnrolled() {
   componentWillUnmount() {
       this.setState({
         id: null,
-        currentlyEnrolledStudents: this.getCurrentlyEnrolled(),
-        currentlyUnenrolledStudents: this.getCurrentlyUnenrolled(),
         redirect: false, redirectId: null});
   }
 
