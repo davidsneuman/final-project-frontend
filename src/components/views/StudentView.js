@@ -28,6 +28,7 @@ const StudentView = (props) => {
       
       <h1>{student.firstname + " " + student.lastname}</h1>
       <p>{student.email}</p>
+      <p>{"Student ID: " + student.id}</p>
       <p>{"GPA: " + student.gpa}</p>
       {getCampus(student)}
     
